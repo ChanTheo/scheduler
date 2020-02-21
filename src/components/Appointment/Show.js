@@ -13,10 +13,12 @@ export default function Show (props){
   <section className="appointment__card-right">
     <section className="appointment__actions">
       <img
-        onClick={props.onEdit}
+        onClick={props.onEdit}s
         className="appointment__actions-button"
         src="images/edit.png"
         alt="Edit"
+        name={props.student}
+        
       />
       <img
         onClick={props.onDelete}

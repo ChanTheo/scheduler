@@ -4,22 +4,18 @@ import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment/index";
 import axios from "axios";
-import {getAppointmentsForDay, getInterview, getInterviewsForDay} from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewsForDay } from "helpers/selectors";
+import useApplicationData from "hooks/useApplicationData"
 
 
 export default function Application(props) {
-  const [state, setState] = useState({
-    day: "Monday",
-    days: [],
-    appointments: {},
-    interviewers: {}
-  });
-  function bookInterview(id, interview) {
-    console.log(id, interview);
-  }
-  
-  const setDay = day => setState(prev => ({ ...prev, day }));
-  // const setDays = days => setState(prev => ({ ...prev, days }));
+
+  const {
+    state,
+    setDay,
+    bookInterview,
+    cancelInterview
+  } = useApplicationData();
 
   const interviewers = getInterviewsForDay(state, state.day)
   const appointments = getAppointmentsForDay(state, state.day);
@@ -33,23 +29,24 @@ export default function Application(props) {
         interview={interview}
         interviewers={interviewers}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     );
   });
 
-  
 
-  useEffect(() => {
-    Promise.all([
-      axios.get("http://localhost:8001/api/days"),
-      axios.get("http://localhost:8001/api/appointments"),
-      axios.get("http://localhost:8001/api/interviewers")
-    ])
-      .then(res => {
-        console.log(res)
-        setState(prev => ({ days: res[0].data, appointments: res[1].data, interviewers: res[2].data }))
-      })
-  }, [])
+
+  // useEffect(() => {
+  //   Promise.all([
+  //     axios.get("http://localhost:8001/api/days"),
+  //     axios.get("http://localhost:8001/api/appointments"),
+  //     axios.get("http://localhost:8001/api/interviewers")
+  //   ])
+  //     .then(res => {
+  //       console.log(res)
+  //       setState(prev => ({ days: res[0].data, appointments: res[1].data, interviewers: res[2].data }))
+  //     })
+  // }, [])
 
   return (
     <main className="layout">
@@ -74,8 +71,8 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-       {schedule}
-        
+        {schedule}
+
         <Appointment key="last" time="5pm" />
       </section>
     </main>
@@ -90,16 +87,16 @@ export default function Application(props) {
 
 
 //DEAD APPOINTMENTS CODE 
-{/* {appointments.map(appointment => { */}
-          
-        //   return (
-        //     appointment.interview ?
-        {/* //       <Appointment */}
-        {/* //         key={appointment.id}
+{/* {appointments.map(appointment => { */ }
+
+//   return (
+//     appointment.interview ?
+{/* //       <Appointment */ }
+{/* //         key={appointment.id}
         //         {...appointment} */}
-        //       />
-        //       :
-        {/* //       <Appointment key={appointment.id} time={props.time} /> */}
+//       />
+//       :
+{/* //       <Appointment key={appointment.id} time={props.time} /> */ }
         //   )
         // })
         // }
