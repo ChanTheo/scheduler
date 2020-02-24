@@ -1,6 +1,10 @@
 import React from "react";
+import PropTypes from 'prop-types';
+
+// Components
 import "components/InterviewList.scss"
 import InterviewerListItem from "components/InterviewerListItem.js";
+import InterviewListItem from "components/InterviewerListItem.js";
 
 // Our InterviewerList takes in three props:
 
@@ -32,6 +36,11 @@ export default function InterviewList (props) {
         </ul>
       </section>
     );
+}
 
-  
+InterviewListItem.propTypes = {
+  // You can declare that a prop is a specific JS type. By default, these
+  // are all optional.
+  setInterviewer: PropTypes.func.isRequired,
+  key: PropTypes.number
 }

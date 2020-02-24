@@ -22,38 +22,42 @@ const DELETING = "DELETING"
 const EDIT = "EDIT";
 const ERROR_SAVE = "ERROR_SAVE";
 const ERROR_DELETE = "ERROR_DELETE"
+const ERROR_USER = "ERROR_USER"
 
 export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
 
   );
-  console.log("props", props)
-  
-  function save(name, interviewer) {
-    const interview = {
-      student: name,
-      interviewer
-    };
-    // SHOW SAVE INDICATOR BEFORE CALLING THE FUNCTION
-    transition(SAVING)
-    props.bookInterview(props.id, interview).then(event => transition(SHOW)).catch(error => transition(ERROR_SAVE, true))
-  }
+  // console.log("props", props)
 
+  function save(name, interviewer) {
+    console.log("Save", interviewer)
+    if (!name || !interviewer) {
+      transition(ERROR_USER)
+    } else {
+      const interview = {
+        student: name,
+        interviewer
+      };
+      // SHOW SAVE INDICATOR BEFORE CALLING THE FUNCTION
+      transition(SAVING)
+      props.bookInterview(props.id, interview).then(event => transition(SHOW)).catch(error => transition(ERROR_SAVE, true))
+    }
+  }
 
   function garbageCan() {
-    console.log("In garbage Can props.id = " + props.id)
     transition(DELETING)
-   return props.cancelInterview(props.id).then(event => transition(EMPTY))
-   .catch(err => transition(ERROR_DELETE, true))
+    return props.cancelInterview(props.id).then(event => transition(EMPTY))
+      .catch(err => transition(ERROR_DELETE, true))
   }
-  
+
   return <article className="appointment">
     <Header time={props.time} />
     {mode === EMPTY && <Empty onAdd={(() => transition(CREATE))} />}
-    {mode === SHOW &&  (
+    {mode === SHOW && (
       <Show
-      
+
         student={props.interview.student}
         interviewer={props.interview.interviewer}
         onEdit={() => transition(EDIT)}
@@ -83,20 +87,23 @@ export default function Appointment(props) {
     )}
     {mode === EDIT && (
       <Form
-      name={props.interview.student}
-      // onChange={props.onChange}
-      // onSubmit={props.onSubmit}
-      interviewers={props.interviewers}
-      interviewer={props.interview.interviewer.id}
-      onCancel={() => back()}
-      onSave={save}
-    />
+        name={props.interview.student}
+        // onChange={props.onChange}
+        // onSubmit={props.onSubmit}
+        interviewers={props.interviewers}
+        interviewer={props.interview.interviewer.id}
+        onCancel={() => back()}
+        onSave={save}
+      />
     )}
     {mode === ERROR_DELETE && (
-      <Error message="Could not delete appointment" onClose={() => back()}/>
+      <Error message="Could not delete appointment" onClose={() => back()} />
     )}
     {mode === ERROR_SAVE && (
-      <Error message="Could not save appointment" onClose={() => back()}/>
+      <Error message="Could not save appointment" onClose={() => back()} />
+    )}
+    {mode === ERROR_USER && (
+      <Error message="Could not save appointment..Please enter a name and select an instructor" onClose={() => back()} />
     )}
 
 

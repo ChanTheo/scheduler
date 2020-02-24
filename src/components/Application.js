@@ -34,20 +34,6 @@ export default function Application(props) {
     );
   });
 
-
-
-  // useEffect(() => {
-  //   Promise.all([
-  //     axios.get("http://localhost:8001/api/days"),
-  //     axios.get("http://localhost:8001/api/appointments"),
-  //     axios.get("http://localhost:8001/api/interviewers")
-  //   ])
-  //     .then(res => {
-  //       console.log(res)
-  //       setState(prev => ({ days: res[0].data, appointments: res[1].data, interviewers: res[2].data }))
-  //     })
-  // }, [])
-
   return (
     <main className="layout">
       <section className="sidebar">
