@@ -6,11 +6,6 @@ import "components/InterviewList.scss"
 import InterviewerListItem from "components/InterviewerListItem.js";
 import InterviewListItem from "components/InterviewerListItem.js";
 
-// Our InterviewerList takes in three props:
-
-// interviewers:array - an array of objects containing the information of each interviewer
-// interviewer:number - the id of an interviewer
-// setInterviewer:function - a function that accepts an interviewer id
 
 export default function InterviewList (props) {
 
@@ -39,8 +34,6 @@ export default function InterviewList (props) {
 }
 
 InterviewListItem.propTypes = {
-  // You can declare that a prop is a specific JS type. By default, these
-  // are all optional.
   setInterviewer: PropTypes.func.isRequired,
   key: PropTypes.number
 }

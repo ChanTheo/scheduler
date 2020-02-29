@@ -29,10 +29,8 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
 
   );
-  // console.log("props", props)
 
   function save(name, interviewer) {
-    console.log("Save", interviewer)
     if (!name || !interviewer) {
       transition(ERROR_USER)
     } else {
@@ -46,13 +44,26 @@ export default function Appointment(props) {
     }
   }
 
+  function edit(name, interviewer) {
+    if (!name || !interviewer) {
+      transition(ERROR_USER)
+    } else {
+      const interview = {
+        student: name,
+        interviewer
+      };
+      transition(SAVING)
+      props.editInterview(props.id, interview).then(event => transition(SHOW)).catch(error => transition(ERROR_SAVE, true))
+    }
+  }
+
   function garbageCan() {
     transition(DELETING)
     return props.cancelInterview(props.id).then(event => transition(EMPTY))
       .catch(err => transition(ERROR_DELETE, true))
   }
 
-  return <article className="appointment">
+  return <article className="appointment" data-testid="appointment">
     <Header time={props.time} />
     {mode === EMPTY && <Empty onAdd={(() => transition(CREATE))} />}
     {mode === SHOW && (
@@ -83,7 +94,7 @@ export default function Appointment(props) {
       <Status message="Deleting..." />
     )}
     {mode === CONFIRM && (
-      <Confirm message="Deleting..." onConfirm={garbageCan} onCancel={() => transition(SHOW)} />
+      <Confirm message="Are you sure you want to delete?" onConfirm={garbageCan} onCancel={() => transition(SHOW)} />
     )}
     {mode === EDIT && (
       <Form
@@ -93,7 +104,7 @@ export default function Appointment(props) {
         interviewers={props.interviewers}
         interviewer={props.interview.interviewer.id}
         onCancel={() => back()}
-        onSave={save}
+        onSave={edit}
       />
     )}
     {mode === ERROR_DELETE && (
@@ -105,6 +116,7 @@ export default function Appointment(props) {
     {mode === ERROR_USER && (
       <Error message="Could not save appointment..Please enter a name and select an instructor" onClose={() => back()} />
     )}
+
 
 
   </article>

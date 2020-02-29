@@ -1,12 +1,12 @@
 import react, {useState, useEffect, useReducer} from "react";
 import axios from "axios"
-import reducer from "reducer/application"
+import reducer, {
+  SET_DAY,
+  SET_APPLICATION_DATA,
+  SET_INTERVIEW
+} from "reducer/application";
+import updateDaySpots from "helpers/updateDaysSpots";
 
-
-// constants
-const SET_DAY = "SET_DAY";
-const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
-const SET_INTERVIEW = "SET_INTERVIEW";
 
 
 export default function useApplicationData() {
@@ -17,7 +17,6 @@ export default function useApplicationData() {
     appointments: {},
     interviewers: {}
   });
-  console.log("UseApplicationData" , state)
   const setDay = day => dispatch({type: SET_DAY, day });
   
   useEffect(() => {
@@ -27,10 +26,11 @@ export default function useApplicationData() {
       axios.get("http://localhost:8001/api/interviewers")
     ])
       .then(res => {
-        console.log(res)
         dispatch({type: SET_APPLICATION_DATA, days: res[0].data, appointments: res[1].data, interviewers: res[2].data })
       })
   }, [])
+
+
   
   function cancelInterview(id) {
     const appointmentToCancel = {
@@ -41,13 +41,15 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointmentToCancel
     };
+    const days = updateDaySpots (1, state)
     return axios.delete(`http://localhost:8001/api/appointments/${id}`, {
       appointmentToCancel
     }).then(res => {
       dispatch({
         type: SET_INTERVIEW,
         ...state,
-        appointments
+        appointments,
+        days
       })
     })
   }
@@ -57,7 +59,30 @@ export default function useApplicationData() {
       ...state.appointments[id],
       interview: { ...interview }
     };
-    console.log("Book Interview", interview)
+    
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    const days = updateDaySpots(-1, state)
+    return axios.put(`http://localhost:8001/api/appointments/${id}`, {
+      interview
+    }).then(res => {
+      
+      dispatch({
+        type: SET_INTERVIEW,
+        ...state,
+        appointments,
+        days
+      })
+    });
+  }
+
+  function editInterview(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
     const appointments = {
       ...state.appointments,
       [id]: appointment
@@ -68,7 +93,7 @@ export default function useApplicationData() {
       dispatch({
         type: SET_INTERVIEW,
         ...state,
-        appointments
+        appointments,
       })
     });
   }
@@ -77,7 +102,8 @@ return {
   state,
   setDay,
   bookInterview,
-  cancelInterview
+  cancelInterview,
+  editInterview
 }
 
 }

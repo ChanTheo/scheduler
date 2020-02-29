@@ -26,6 +26,8 @@ export default function InterviewListItem (props) {
     selected={props.selected}
     key={props.id}
     onClick={props.setInterviewer}
+    data-testid="form-interviewer"
+    key={props.id}
     >
     <img
     className="interviewers__item-image"

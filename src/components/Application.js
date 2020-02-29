@@ -8,13 +8,14 @@ import { getAppointmentsForDay, getInterview, getInterviewsForDay } from "helper
 import useApplicationData from "hooks/useApplicationData"
 
 
-export default function Application(props) {
+export default function Application() {
 
   const {
     state,
     setDay,
     bookInterview,
-    cancelInterview
+    cancelInterview,
+    editInterview
   } = useApplicationData();
 
   const interviewers = getInterviewsForDay(state, state.day)
@@ -30,6 +31,7 @@ export default function Application(props) {
         interviewers={interviewers}
         bookInterview={bookInterview}
         cancelInterview={cancelInterview}
+        editInterview={editInterview}
       />
     );
   });
@@ -58,31 +60,8 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {schedule}
-
-        <Appointment key="last" time="5pm" />
+       {schedule.length > 1 && <Appointment key="last" time="5pm" />}
       </section>
     </main>
   );
 }
-
-
-// interview={appointment.interview ? appointment.interview : undefined}
-//           student={appointment.interview ? appointment.interview.student : undefined }
-//           interviewer={appointment.interview ? appointment.interview.interviewer : undefined }
-// time={appointment.time}
-
-
-//DEAD APPOINTMENTS CODE 
-{/* {appointments.map(appointment => { */ }
-
-//   return (
-//     appointment.interview ?
-{/* //       <Appointment */ }
-{/* //         key={appointment.id}
-        //         {...appointment} */}
-//       />
-//       :
-{/* //       <Appointment key={appointment.id} time={props.time} /> */ }
-        //   )
-        // })
-        // }
