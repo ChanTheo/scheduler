@@ -24,9 +24,10 @@ Interview Scheduler is a single page application built with React, where users c
 
 
 ## Example Screenshots:
-!["Create an Appointment Form"](https://github.com/ChanTheo/Tweeter/blob/master/docs/Tweeter_Write_A_New_Tweet_Hidden.png?raw=true)
-![""](https://github.com/ChanTheo/Tweeter/blob/master/docs/Tweeter_New_Tweet.png?raw=true)
-!["Error Message: Maximum Length Exceeded Display](https://github.com/ChanTheo/Tweeter/blob/master/docs/Tweeter_Maximum_Length_Error.png?raw=true)
+!["Create an Appointment Form"](https://github.com/ChanTheo/scheduler/blob/master/docs/Empty_form.png?raw=true)
+!["Monday Schedule"](https://github.com/ChanTheo/scheduler/blob/master/docs/Example_appointments.png?raw=true)
+!["Apppointment Form filled in with student name"](https://github.com/ChanTheo/scheduler/blob/master/docs/appointment_form.png?raw=true)
+!["Wednesday Schedule"](https://github.com/ChanTheo/scheduler/blob/master/docs/wednesday_example.png?raw=true)
 
 
 
