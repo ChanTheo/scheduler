@@ -78,11 +78,8 @@ export default function Appointment(props) {
     )}
     {mode === CREATE && (
       <Form
-        // name={props.name}
-        // onChange={props.onChange}
-        // onSubmit={props.onSubmit}
         interviewers={props.interviewers}
-        // interviewer={props.interviewer}
+       
         onCancel={() => back()}
         onSave={save}
       />
@@ -99,8 +96,6 @@ export default function Appointment(props) {
     {mode === EDIT && (
       <Form
         name={props.interview.student}
-        // onChange={props.onChange}
-        // onSubmit={props.onSubmit}
         interviewers={props.interviewers}
         interviewer={props.interview.interviewer.id}
         onCancel={() => back()}

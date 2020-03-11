@@ -7,7 +7,7 @@
     "classnames": "^2.2.6",
     "core-js": "^3.6.4",
     "normalize.css": "^8.0.1",
-    "react": "^16.9.0",
+    "react": "^16.13.0",
     "react-dom": "^16.9.0",
     "react-scripts": "3.0.0"
   },
@@ -54,10 +54,9 @@
       "<rootDir>/node_modules/",
       "<rootDir>/.git/"
     ],
-      "collectCoverageFrom": [
-        "src/**/*.js",
-        "!src/index.js"
-      ]
-    
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/index.js"
+    ]
   }
 }
